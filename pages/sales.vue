@@ -1,8 +1,10 @@
 <template>
-  <!-- Тут должна быть форма, но её тут нету -->
-  <v-row class="pt-5">
-    <SalesItem v-for="item in sales" :key="item.id" :salesData="item" />
-  </v-row>
+  <!-- Тут должна быть форма, но её тут нет -->
+  <div class="pt-5">
+      <v-row v-for="item in sales" :key="item.id" >
+          <SalesItem :salesData="item" />
+      </v-row>
+  </div>
 </template>
 
 <script>
