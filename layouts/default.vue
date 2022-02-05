@@ -1,0 +1,81 @@
+<template>
+  <v-app dark>
+    <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" fixed app>
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-row class="mt-10 pl-8">
+        dsf
+      </v-row>
+    </v-navigation-drawer>
+    <v-app-bar :clipped-left="clipped" fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title v-text="title" />
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <Nuxt />
+      </v-container>
+    </v-main>
+    <v-footer :absolute="!fixed" app>
+      <span>&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
+</template>
+
+<script>
+import { mapActions } from "vuex";
+
+export default {
+  name: "DefaultLayout",
+  data() {
+    return {
+      clipped: false,
+      drawer: false,
+      fixed: false,
+      items: [
+        {
+          icon: "mdi-apps",
+          title: "Главная",
+          to: "/",
+        },
+        {
+          icon: "mdi-apps",
+          title: "О нас",
+          to: "/about",
+        },
+        {
+          icon: "mdi-apps",
+          title: "Доставки",
+          to: "/sales"
+        }
+      ],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: "Деловая колбаса",
+    };
+  },
+
+  created() {
+    this.getDefaultPagesData();
+    this.getSales();
+  },
+  methods: {
+    ...mapActions(["getDefaultPagesData", "getSales"]),
+  },
+};
+</script>
