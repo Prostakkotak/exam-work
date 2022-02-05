@@ -1,70 +1,33 @@
 <template>
   <div class="pt-5">
-    <v-row>
-        <v-col>
-          <v-text-field
-            v-model="type"
-            :counter="15"
-            label="Тип доставки (truck, plane, train, )"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="departure_city"
-            :counter="30"
-            label="Город отправителя"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="departure_address"
-            :counter="50"
-            label="Адрес отправителя"
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="destination_city"
-            :counter="30"
-            label="Город назначения"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="destination_address"
-            :counter="50"
-            label="Адрес назначения"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="weight"
-            :counter="10"
-            label="Вес (кг)"
-            required
-          ></v-text-field>
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="volume"
-            :counter="10"
-            label="Объем (м3)"
-            required
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      
-      <v-btn class="mt-5 mb-10" @click="submit"> Добавить комментарий </v-btn>
-      <v-row v-for="item in sales" :key="item.id" >
-          <SalesItem :salesData="item" />
-      </v-row>
+    <v-form v-model="isValid" ref="form" v-if="fields">
+      <div v-for="(field, i) in Object.keys(fields)" :key="i">
+        <v-text-field
+          v-if="fields[field].type === 'string'"
+          v-model="formData[field]"
+          :rules="[(v) => !!v || 'Нужно заполнить']"
+          :label="fields[field].title"
+          :placeholder="fields[field].title"
+          required
+        ></v-text-field>
+        <v-select
+          v-else-if="fields[field].type === 'select'"
+          v-model="formData[field]"
+          :rules="[(v) => !!v || 'Нужно заполнить']"
+          :items="fields[field].values"
+          :label="fields[field].title"
+          :placeholder="fields[field].title"
+          required
+        ></v-select>
+      </div>
+    </v-form>
+
+    <v-btn :disabled="!isValid" class="mt-5 mb-10" @click="submit">
+      Добавить доставку
+    </v-btn>
+    <v-row v-for="item in sales" :key="item.id">
+      <SalesItem :salesData="item" />
+    </v-row>
   </div>
 </template>
 
@@ -74,35 +37,26 @@ import SalesItem from "@/components/SalesItem";
 
 export default {
   name: "SalesPage",
+  data: () => ({
+    formData: {},
+    isValid: false,
+  }),
   components: {
     SalesItem,
   },
-  data: () => ({
-    type: "",
-    departure_city: "",
-    departure_address: "",
-    destination_city: "",
-    destination_address: "",
-    weight: "",
-    volume: "",
-  }),
   computed: {
-    ...mapState(["sales"]),
+    ...mapState(["sales", "fields"]),
   },
   methods: {
-    ...mapActions(["addSalesItem"]),
-    submit() {
-      this.addSalesItem({
-        type: this.type,
-        departure_city: this.departure_city,
-        departure_address: this.departure_address,
-        destination_city: this.destination_city,
-        destination_address: this.destination_address,
-        weight: this.weight,
-        volume: this.volume
-      })
-    }
-  }
+    ...mapActions(["addSalesItem", "getSales"]),
+    async submit() {
+      if (!this.isValid) return;
+
+      await this.addSalesItem(this.formData);
+      this.$refs.form.reset()
+      this.getSales()
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

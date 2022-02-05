@@ -1,6 +1,7 @@
 export const state = () => ({
     pagesData: {},
-    sales: []
+    sales: [],
+    fields: null
 })
 export const mutations = {
     ADD_PAGES_DATA(state, payload) {
@@ -8,6 +9,9 @@ export const mutations = {
     },
     SET_SALES(state, payload) {
         state.sales = payload
+    },
+    SET_FIELDS(state, payload) {
+        state.fields = payload
     }
 }
 export const getters = {}
@@ -42,9 +46,13 @@ export const actions = {
         commit("SET_SALES", sales)
     },
 
-    async addSalesItem({dispatch}, data) {
-        await this.$axios.$post("/api/delivery/sales", data)
+    async getFields({commit}) {
+        const data = await this.$axios.$get("/api/delivery/sales/form")
 
-        dispatch("getSales")
+        commit("SET_FIELDS", data.fields)
+    },
+
+    addSalesItem(_, data) {   
+      return this.$axios.$post("/api/delivery/sales", data)
     }
 }

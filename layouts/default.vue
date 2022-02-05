@@ -80,9 +80,10 @@ export default {
   created() {
     this.getDefaultPagesData();
     this.getSales();
+    this.getFields()
   },
   methods: {
-    ...mapActions(["getDefaultPagesData", "getSales"]),
+    ...mapActions(["getDefaultPagesData", "getSales", "getFields"])
   },
 };
 </script>
