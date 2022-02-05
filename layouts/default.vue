@@ -17,9 +17,13 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-row class="mt-10 pl-8">
-        dsf
+      <v-row class="mt-10 mb-2 pl-8 widget-left">
+        <h4>Грузов доставлено</h4>
       </v-row>
+      <v-row class="mt-2 pl-8">Грузовиками: {{pagesData.leftWidget && pagesData.leftWidget.trucks}}</v-row>
+      <v-row class="mt-2 pl-8">Поездами: {{pagesData.leftWidget && pagesData.leftWidget.trains}}</v-row>
+      <v-row class="mt-2 pl-8">Кораблями: {{pagesData.leftWidget && pagesData.leftWidget.ships}}</v-row>
+      <v-row class="mt-2 pl-8">Самолетами: {{pagesData.leftWidget && pagesData.leftWidget.planes}}</v-row>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -37,7 +41,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "DefaultLayout",
@@ -68,6 +72,9 @@ export default {
       rightDrawer: false,
       title: "Деловая колбаса",
     };
+  },
+  computed: {
+    ...mapState(["pagesData"])
   },
 
   created() {

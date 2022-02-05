@@ -41,9 +41,12 @@ export const actions = {
 
         commit("SET_SALES", sales)
     },
+    /*
+    Призрак неудавшейся формы
+    
     async getSalesForm({commit}) {
         const form = await this.$axios.$get("/api/delivery/sales/form")
 
         commit("SET_SALES_FORM", form)
-    }
+    } */
 }
