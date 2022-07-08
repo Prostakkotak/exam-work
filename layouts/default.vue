@@ -59,7 +59,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Vet City vue",
+      title: "Ветклиника Vet City",
     };
   },
 

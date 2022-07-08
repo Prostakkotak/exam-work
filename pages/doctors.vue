@@ -1,6 +1,7 @@
 <template>
   <v-row class="pt-5 wrap" v-if="doctors.length !== 0">
     <v-row style="width: 100%">
+      <div class="red">{{ errors }}</div>
       <v-form v-model="isValid" class="form">
         <v-text-field
           :rules="[(v) => !!v || 'Нужно заполнить']"
@@ -25,7 +26,9 @@
         />
       </v-form>
     </v-row>
-    <v-btn @click="onSubmit" class="mb-10" :disabled="!isValid">Добавить врача</v-btn>
+    <v-btn @click="onSubmit" class="mb-10" :disabled="!isValid"
+      >Добавить врача</v-btn
+    >
     <v-row class="doctors-list">
       <DoctorCard
         v-for="doctor in doctors.results"
@@ -58,7 +61,8 @@ export default {
     position: "",
     bio: "",
     isValid: false,
-    page: 1
+    page: 1,
+    errors: "",
   }),
   computed: {
     ...mapState(["doctors"]),
@@ -67,13 +71,21 @@ export default {
     ...mapActions(["addDoctor", "getDoctors"]),
     async onSubmit() {
       try {
+        this.errors = "";
         await this.addDoctor({
           name: this.name,
           position: this.position,
           bio: this.bio,
         });
+
+        await this.getDoctors();
+        this.name = "";
+        this.position = "";
+        this.bio = "";
       } catch (e) {
-        console.warn(e);
+        for (let i = 0; i < Object.keys(e.response.data).length; i++) {
+            this.errors += Object.keys(e.response.data)[i] + ': ' + e.response.data[Object.keys(e.response.data)[i]] + ', ';
+        }
       }
     },
     onPageChange(page) {
