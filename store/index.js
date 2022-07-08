@@ -22,18 +22,22 @@ export const getters = {}
 
 export const actions = {
 
-    async getDoctors({commit}, q = null) {
-        const data = await this.$axios.$get(`doctors/?search=${q ? q : ""}&format=json`)
+    async getDoctors({commit}, page = 0) {
+        const data = await this.$axios.$get(`doctors/?format=json&limit=10&offset=${page !== 0 ? page * 10 : 0}`)
 
-        commit("SET_DOCTORS", data.results)
+        commit("SET_DOCTORS", data)
+
+        return true
     },
-    async getServices({commit}, q = null) {
-        const data = await this.$axios.$get(`services/?search=${q ? q : ""}&format=json`)
+    async getServices({commit}, page = 0) {
+        const data = await this.$axios.$get(`services/?format=json&limit=10&offset=${page !== 0 ? page * 10 : 0}`)
 
-        commit("SET_SERVICES", data.results)
+        commit("SET_SERVICES", data)
+
+        return true
     },
 
-    addSalesItem(_, data) {   
-      return this.$axios.$post("/api/delivery/sales", data)
+    addDoctor(_,data) {
+        return this.$axios.$post('add-doctor', data)
     }
 }
