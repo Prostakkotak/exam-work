@@ -43,7 +43,7 @@ export default {
   ],
 
   axios: {
-    baseURL: "https://demo-api.vsdev.space"
+    baseURL: "http://vet-two.std-1388.ist.mospolytech.ru/api/"
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

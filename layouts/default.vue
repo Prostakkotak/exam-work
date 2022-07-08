@@ -1,5 +1,6 @@
 <template>
   <v-app dark>
+
     <v-navigation-drawer v-model="drawer" :mini-variant="miniVariant" fixed app>
       <v-list>
         <v-list-item
@@ -17,13 +18,6 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <v-row class="mt-10 mb-2 pl-8 widget-left">
-        <h4>Грузов доставлено</h4>
-      </v-row>
-      <v-row class="mt-2 pl-8">Грузовиками: {{pagesData.leftWidget && pagesData.leftWidget.trucks}}</v-row>
-      <v-row class="mt-2 pl-8">Поездами: {{pagesData.leftWidget && pagesData.leftWidget.trains}}</v-row>
-      <v-row class="mt-2 pl-8">Кораблями: {{pagesData.leftWidget && pagesData.leftWidget.ships}}</v-row>
-      <v-row class="mt-2 pl-8">Самолетами: {{pagesData.leftWidget && pagesData.leftWidget.planes}}</v-row>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -41,7 +35,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "DefaultLayout",
@@ -53,37 +47,28 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Главная",
-          to: "/",
+          title: "Услуги",
+          to: "/"
         },
         {
           icon: "mdi-apps",
-          title: "О нас",
-          to: "/about",
+          title: "Доктора",
+          to: "/doctors"
         },
-        {
-          icon: "mdi-apps",
-          title: "Доставки",
-          to: "/sales"
-        }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "Деловая колбаса",
+      title: "Vet City vue",
     };
-  },
-  computed: {
-    ...mapState(["pagesData"])
   },
 
   created() {
-    this.getDefaultPagesData();
-    this.getSales();
-    this.getFields()
+    this.getDoctors()
+    this.getServices()
   },
   methods: {
-    ...mapActions(["getDefaultPagesData", "getSales", "getFields"])
+    ...mapActions(["getDoctors", "getServices"])
   },
 };
 </script>

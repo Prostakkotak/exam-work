@@ -8,7 +8,7 @@
 import { mapState } from "vuex";
 
 export default {
-  name: "ServicesPage",
+  name: "DoctorsPage",
   computed: {
     ...mapState(["pagesData"]),
   },
