@@ -25,12 +25,12 @@ export const actions = {
     async getDoctors({commit}, q = null) {
         const data = await this.$axios.$get(`doctors/?search=${q ? q : ""}&format=json`)
 
-        commit("SET_DOCTORS", data)
+        commit("SET_DOCTORS", data.results)
     },
     async getServices({commit}, q = null) {
         const data = await this.$axios.$get(`services/?search=${q ? q : ""}&format=json`)
 
-        commit("SET_SERVICES", data)
+        commit("SET_SERVICES", data.results)
     },
 
     addSalesItem(_, data) {   

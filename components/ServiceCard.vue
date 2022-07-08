@@ -2,12 +2,12 @@
   <v-hover v-slot="{ hover }">
       <v-card
         :elevation="hover ? 12 : 2"
-        class="pa-4 my-2 col doctor-card"
+        class="pa-4 my-2 col service-card"
         :class="{ 'on-hover': hover }"
       >
-      <div class="doctor-card__text">
-          <div>ФИО: {{data.name}}</div>
-          <div>Должность: {{data.position}}</div>
+      <div class="service-card__text">
+          <div>{{data.name}}</div>
+          <div>{{data.price}} руб.</div>
       </div>
       </v-card>
   </v-hover>
